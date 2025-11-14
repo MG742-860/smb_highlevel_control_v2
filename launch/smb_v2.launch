@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    
+    <arg name="world" default="singlePillar"/>
+    <include file="$(find smb_gazebo)/launch/smb_gazebo.launch">
+        <!--arg name="world_name" default="$(find smb_highlevel_controller_v2)/worlds/singlePillar.world"/-->
+        <arg name="world_file" value="$(find smb_highlevel_controller_v2)/worlds/$(arg world).world"/>
+        <arg name="laser_enabled" value="true"/>
+        <!--arg name="lidar" value="true"/-->
+    </include>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find smb_highlevel_controller_v2)/config/smb.rviz" />
+    <node pkg="smb_highlevel_controller_v2" type="shc_v2_node" name="shcv2" launch-prefix="gnome-terminal -e"/>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="control_key" launch-prefix="gnome-terminal -e"/>
+
+
+</launch>
+<!-- copy from smb_highlevel_controller_1 (ROS lesson work 2) -->
