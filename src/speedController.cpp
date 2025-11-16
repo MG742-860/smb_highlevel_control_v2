@@ -84,6 +84,9 @@ void speedController::dis_callback(const std_msgs::Float64::ConstPtr &dis_msg){
     smbdata.distance = dis_msg->data;
 };
 void speedController::lca_callback(const geometry_msgs::PointStamped::ConstPtr &loca_msg){
+    std::cout<<smbdata.Allow_Collision<<std::endl;
+    std::cout<<smbdata.distance<<std::endl;
+    std::cout<<smbdata.angle<<std::endl;
     if (loca_msg->point.x == -100 && loca_msg->point.y == 0 && smbdata.distance == -100)
     {
         smbdata.Allow_Collision = false;
@@ -99,10 +102,12 @@ void speedController::lca_callback(const geometry_msgs::PointStamped::ConstPtr &
     {
         if (smbdata.Allow_Collision)
         {
+            std::cout<<"前进中，不调整角度"<<std::endl;
             if (abs(smbdata.angle) < 0.2) return;
         }
         else
         {
+            std::cout<<"调整角度中"<<std::endl;
             if (smbdata.angle > 0.1)
             {
                 high_speed(vel_ctrler, LEFT);
@@ -128,6 +133,7 @@ void speedController::lca_callback(const geometry_msgs::PointStamped::ConstPtr &
     }
     if (abs(smbdata.angle) < 0.02)
     {
+        std::cout<<"前进中"<<std::endl;
         smbdata.Allow_Collision = true;
         high_speed(vel_ctrler, FRONT);        
     }
